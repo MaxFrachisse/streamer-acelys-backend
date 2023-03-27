@@ -7,21 +7,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Module {
+public class MediaType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(nullable = false)
-    private String name;
-
-    private String objective;
-
-    @ManyToOne(targetEntity = Course.class)
-    @JoinColumn(name = "course_id")
-    private Course course;
-
-    @OneToMany(targetEntity = Media.class)
+    @ManyToOne(targetEntity = Media.class)
     @JoinColumn(name = "media_id")
     private Media media;
 }
