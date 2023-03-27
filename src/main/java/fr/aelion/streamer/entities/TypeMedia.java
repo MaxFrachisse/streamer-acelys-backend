@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
-public class MediaType {
+public class TypeMedia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne(targetEntity = Media.class)
-    @JoinColumn(name = "media_id")
-    private Media media;
+    @OneToMany(mappedBy = "mediaType")
+    private Set<Media> medias;
 }

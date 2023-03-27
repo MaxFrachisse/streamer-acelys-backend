@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -21,7 +23,6 @@ public class Module {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(targetEntity = Media.class)
-    @JoinColumn(name = "media_id")
-    private Media media;
+    @OneToMany(mappedBy = "module")
+    private Set<Media> medias;
 }

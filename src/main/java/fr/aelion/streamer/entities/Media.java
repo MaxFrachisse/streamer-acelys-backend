@@ -28,7 +28,7 @@ public class Media {
     @ManyToOne(targetEntity = Module.class)
     @JoinColumn(name = "module_id")
     private Module module;
-    @OneToOne
+    @ManyToOne(targetEntity = TypeMedia.class)
     @JoinColumn(name = "typemedia_id")
-    private MediaType mediaType;
+    private TypeMedia mediaType;
 }
