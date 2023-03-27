@@ -28,7 +28,12 @@ public class CourseServiceImpl implements CourseService {
                     // Make as many ModuleDto as needed
                     var modules = c.getModules();
                     for (var module : modules) {
-                        fullCourseDto.addModule(module);
+                        var moduleDto = fullCourseDto.addModule(module);
+                        for(var media : module.getMedias()){
+                            moduleDto.addMedias(media);
+                        }
+                        fullCourseDto.getModules().add(moduleDto);
+
                     }
                     return fullCourseDto;
                 })
