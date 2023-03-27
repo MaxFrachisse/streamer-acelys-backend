@@ -1,5 +1,6 @@
 package fr.aelion.streamer.dto;
 
+import fr.aelion.streamer.entities.TypeMedia;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,4 +14,5 @@ public class MediaDto {
     private float duration;
     private LocalDate createdAt;
     private String url;
+    private String typeMedia;
 }

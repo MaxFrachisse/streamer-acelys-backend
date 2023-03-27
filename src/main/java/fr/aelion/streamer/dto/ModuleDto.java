@@ -25,6 +25,7 @@ public class ModuleDto {
         mediaDto.setCreatedAt(media.getCreatedAt());
         mediaDto.setUrl(media.getUrl());
         mediaDto.setSummary(media.getSummary());
+        mediaDto.setTypeMedia(media.getTitle());
 
         this.medias.add(mediaDto);
     }

@@ -13,6 +13,8 @@ public class TypeMedia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    private String title;
     @OneToMany(mappedBy = "mediaType")
     private Set<Media> medias;
 }
