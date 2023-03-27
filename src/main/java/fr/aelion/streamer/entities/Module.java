@@ -1,5 +1,6 @@
 package fr.aelion.streamer.entities;
 
+import fr.aelion.streamer.dto.MediaDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

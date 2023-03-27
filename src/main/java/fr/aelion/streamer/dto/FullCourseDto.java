@@ -24,14 +24,13 @@ public class FullCourseDto {
     private String objective;
     private Set<ModuleDto> modules = new HashSet<>();
 
-    public void addModule(Module module) {
+    public ModuleDto addModule(Module module) {
         var moduleDto = new ModuleDto();
         moduleDto.setId(module.getId());
         moduleDto.setName(module.getName());
         moduleDto.setObjective(module.getObjective());
-        moduleDto.setMedias(module.getMedias());
 
-        this.modules.add(moduleDto);
+        return moduleDto;
     }
 
 }
