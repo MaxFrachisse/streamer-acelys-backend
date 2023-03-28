@@ -47,9 +47,12 @@ public class CourseController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> add(@Valid @RequestBody AddCourseDto course){
-        Course newCourse = service.add(course);
-        return ResponseEntity.created(null).body(newCourse);
+        try {
+            Course newCourse = service.add(course);
+            return ResponseEntity.created(null).body(newCourse);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }

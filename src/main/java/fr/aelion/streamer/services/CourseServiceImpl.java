@@ -99,14 +99,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public Course add(AddCourseDto course){
-        /*Student anyStudent = repository.findByEmail(student.getEmail());
-        if (anyStudent != null) {
-            throw new EmailAlreadyExistsException("Email " + student.getEmail() + " already exists");
-        }
-        anyStudent = repository.findByLogin(student.getLogin());
-        if (anyStudent != null) {
-            throw new LoginAlreadyExistsException("Login " + student.getLogin() + " already exists");
-        }*/
         Course newCourse = modelMapper.map(course, Course.class);
         newCourse.setCreatedAt(LocalDate.now());
         newCourse = (Course) courseRepository.save(newCourse);
