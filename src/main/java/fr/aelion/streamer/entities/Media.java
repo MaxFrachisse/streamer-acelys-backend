@@ -3,6 +3,8 @@ package fr.aelion.streamer.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -26,9 +28,9 @@ public class Media {
     private String url;
 
     @ManyToOne(targetEntity = Module.class)
-    @JoinColumn(name = "module_id")
+    @JoinColumn(name = "module_id", referencedColumnName = "id")
     private Module module;
     @ManyToOne(targetEntity = TypeMedia.class)
-    @JoinColumn(name = "typemedia_id")
+    @JoinColumn(name = "typemedia_id", referencedColumnName = "id")
     private TypeMedia mediaType;
 }

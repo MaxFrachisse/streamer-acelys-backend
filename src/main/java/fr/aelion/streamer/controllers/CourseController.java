@@ -31,4 +31,14 @@ public class CourseController {
             return ResponseEntity.notFound().build();
         }
     }
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<?> singleDelete(@PathVariable int id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

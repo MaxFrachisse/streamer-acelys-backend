@@ -1,22 +1,25 @@
 package fr.aelion.streamer.services;
 
 import fr.aelion.streamer.dto.FullCourseDto;
-import fr.aelion.streamer.dto.ModuleDto;
 import fr.aelion.streamer.entities.Course;
 import fr.aelion.streamer.repositories.CourseRepository;
+import fr.aelion.streamer.repositories.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
     @Autowired
-    private CourseRepository repository;
+    private CourseRepository courseRepository;
+    @Autowired
+    private MediaRepository mediaRepository;
+
     public List<FullCourseDto> findAll() {
-        return repository.findAll()
+        return courseRepository.findAll()
                 .stream()
                 .map(c -> {
                     FullCourseDto fullCourseDto = new FullCourseDto();
@@ -29,7 +32,7 @@ public class CourseServiceImpl implements CourseService {
                     var modules = c.getModules();
                     for (var module : modules) {
                         var moduleDto = fullCourseDto.addModule(module);
-                        for(var media : module.getMedias()){
+                        for (var media : module.getMedias()) {
                             moduleDto.addMedias(media);
                         }
                         fullCourseDto.getModules().add(moduleDto);
@@ -42,21 +45,47 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public FullCourseDto findOne(int id) {
-       return repository.findById(id)
-               .map((c) -> {
-                   var fullCourseDto = new FullCourseDto();
-                   fullCourseDto.setId(c.getId());
-                   fullCourseDto.setTitle(c.getTitle());
-                   fullCourseDto.setCreatedAt(c.getCreatedAt());
-                   fullCourseDto.setUpdatedAt(c.getUpdatedAt());
-                   // Make as many ModuleDto as needed
-                   var modules = c.getModules();
-                   for (var module : modules) {
-                       fullCourseDto.addModule(module);
-                   }
-                   return fullCourseDto;
-               })
-               .orElseThrow();
+        return courseRepository.findById(id)
+                .map((c) -> {
+                    var fullCourseDto = new FullCourseDto();
+                    fullCourseDto.setId(c.getId());
+                    fullCourseDto.setTitle(c.getTitle());
+                    fullCourseDto.setCreatedAt(c.getCreatedAt());
+                    fullCourseDto.setUpdatedAt(c.getUpdatedAt());
+                    // Make as many ModuleDto as needed
+                    var modules = c.getModules();
+                    for (var module : modules) {
+                        fullCourseDto.addModule(module);
+                    }
+                    return fullCourseDto;
+                })
+                .orElseThrow();
 
     }
+
+    @Override
+    public void delete(int id) {
+        try {
+            var course = this.findById(id);
+            var modules = course.getModules();
+            for (var module : modules
+            ) {
+                var medias = module.getMedias();
+                for (var media : medias
+                ) {
+                    media.setModule(null);
+                    mediaRepository.save(media);
+                }
+            }
+            courseRepository.delete(course);
+        } catch (NoSuchElementException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public Course findById(int id) {
+        return courseRepository.findById(id).orElseThrow();
+    }
+
 }
