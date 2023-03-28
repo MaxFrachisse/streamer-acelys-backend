@@ -24,6 +24,6 @@ public class Course {
 
     private String objective;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",cascade = CascadeType.REMOVE)
     private Set<Module> modules;
 }

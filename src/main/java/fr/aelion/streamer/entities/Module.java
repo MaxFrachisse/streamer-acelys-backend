@@ -21,7 +21,7 @@ public class Module {
     private String objective;
 
     @ManyToOne(targetEntity = Course.class)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
     @OneToMany(mappedBy = "module")
