@@ -4,9 +4,11 @@ import fr.aelion.streamer.dto.AddCourseDto;
 import fr.aelion.streamer.dto.AddStudentDto;
 import fr.aelion.streamer.dto.FullCourseDto;
 import fr.aelion.streamer.entities.Course;
+import fr.aelion.streamer.entities.Module;
 import fr.aelion.streamer.entities.Student;
 import fr.aelion.streamer.repositories.CourseRepository;
 import fr.aelion.streamer.repositories.MediaRepository;
+import fr.aelion.streamer.repositories.ModuleRepository;
 import fr.aelion.streamer.services.exceptions.EmailAlreadyExistsException;
 import fr.aelion.streamer.services.exceptions.LoginAlreadyExistsException;
 import org.modelmapper.ModelMapper;
@@ -24,7 +26,8 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private MediaRepository mediaRepository;
-
+    @Autowired
+    private ModuleRepository moduleRepository;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -106,4 +109,18 @@ public class CourseServiceImpl implements CourseService {
         return newCourse;
     }
 
+    public Course addCourseAndModule(Course course) {
+        AddCourseDto newCourseDto = modelMapper.map(course, AddCourseDto.class);
+        newCourseDto.setCreatedAt(LocalDate.now());
+        Course myNewCourse = add(newCourseDto);
+
+        Module[] modules = course.getModules().toArray(new Module[0]);
+
+        for (var module: modules
+             ) {
+            module.setCourse(myNewCourse);
+            moduleRepository.save(module);
+        }
+        return myNewCourse;
+    }
 }

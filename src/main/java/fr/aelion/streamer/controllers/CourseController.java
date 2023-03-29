@@ -55,4 +55,14 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @PostMapping("module")
+    public ResponseEntity<?> addCourseAndModule(@Valid @RequestBody Course course){
+        try {
+            Course newCourse = service.addCourseAndModule(course);
+            return ResponseEntity.created(null).body(newCourse);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }
